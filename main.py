@@ -7,3 +7,8 @@ def home():
     return{"message": "Hey World!"}
 
 
+origins = [
+    "http://localhost", 
+    "http://localhost:3000"
+]
+
