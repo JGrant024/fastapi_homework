@@ -52,9 +52,20 @@ def get_students():
 
 @app.get('/enrollments')
 def get_enrollments():
-    enrollments = session.query(Enrollments.enrollments_id, Enrollments.enrollment_date, Students.name, Courses.name ).join(Students, Students.id == Enrollments.id).join(Courses, Courses.id == Enrollments.course_id)
-    print(enrollments.all())
-    return {}
+    enrollments = session.query(Enrollments, Students, Courses).join(Students, Students.id == Enrollments.student_id).join(Courses, Courses.id == Enrollments.course_id)
+    results = enrollments.all()
+
+    enrollment_list = [] 
+    for enrollment in results: 
+        enrollment_dict = { 
+            "enrollment_id": enrollment.Enrollments.enrollment_id, 
+            "student_name": enrollment.Students.name, 
+            "course_name": enrollment.Enrollments.enrollment_date
+        }
+        enrollment_list.append(enrollment_dict)
+
+    return enrollment_list 
+    
 
 
 @app.post('/students/add')
